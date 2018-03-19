@@ -33,15 +33,16 @@ def degree_shuffNet(network, verbose=False):
 # Calculate optimal propagation coefficient
 # Model from Huang and Carlin et al 2018
 def calculate_alpha(network, m=-0.02935302, b=0.74842057, verbose=False):
-	log_edge_count = np.log10(len(network.edges()))
-	alpha_val = round(m*log_edge_count+b,3)
-	if verbose:
-		print 'Calculated Alpha:', alpha_val
-	if alpha_val <=0:
-		raise ValueError('Alpha <= 0 - Network Edge Count is too high')
-		# There should never be a case where Alpha >= 1, as avg node count will never be negative
-	else:
-		return alpha_val
+    log_edge_count = np.log10(len(network.edges()))
+    alpha_val = m*log_edge_count+b
+    alpha_rnd = round(np.floor(alpha_val*1000)/1000,3)
+    if verbose:
+        print 'Calculated Alpha:', alpha_rnd
+    if alpha_rnd <=0:
+        raise ValueError('Alpha <= 0 - Network Edge Count is too high')
+        # There should never be a case where Alpha >= 1, as avg node count will never be negative
+    else:
+        return alpha_rnd
 
 # Create degree-normalized adjacency matrix
 def create_norm_adj_mat(network, symmetric_norm=False, verbose=False):
@@ -73,6 +74,7 @@ def prop_seed(network, prop_nodes):
     return np.array(seed_list)    
 
 # Calculate propagated values of network nodes from seed nodes
+# matrix is the degree-normalized adjacency matrix
 def propagate(matrix, init_array, alpha, max_iter=250, prop_min_rtol=1e-6, prop_min_atol=1e-08, verbose=False):
     F = init_array.copy()
     F_0 = (1-alpha)*init_array

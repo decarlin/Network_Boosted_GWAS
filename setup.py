@@ -27,7 +27,6 @@ setup(
         'networkx>=1.11',
         'numpy>=1.11.0',
         'matplotlib>=1.5.1',
-        'mkl>=1.1.2',
         'multiprocessing>0.70',
         'pandas>=0.19.0',
         'requests>=2.13.0',
