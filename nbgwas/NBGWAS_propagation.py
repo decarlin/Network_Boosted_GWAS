@@ -75,6 +75,9 @@ def prop_seed(network, prop_nodes):
 
 # Calculate propagated values of network nodes from seed nodes
 # matrix is the degree-normalized adjacency matrix
+# score currently blows up for large networks like PCNet...Need to investigate further
+# ********* BUG ALERT *************
+# Using network propagation methods from Network_Evaluation_Tools for now
 def propagate(matrix, init_array, alpha, max_iter=250, prop_min_rtol=1e-6, prop_min_atol=1e-08, verbose=False):
     F = init_array.copy()
     F_0 = (1-alpha)*init_array
