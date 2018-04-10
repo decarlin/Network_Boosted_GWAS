@@ -26,16 +26,17 @@ def load_GS_sets(gs_sets_file, delimiter='\t', verbose=False):
     return gs_sets
 
 # Construct precision recall curve
-def PRC(values, gold_standard_set, sort_value_ascending):
+def PRC(values, gold_standard_set, presorted=True, sort_value_ascending=True):
     # Set up sorted values table
     y_actual = pd.Series(0, index=values.index, dtype=int)
     y_actual.ix[gold_standard_set]+=1
     y_actual.name = 'Gold Standard Gene'
-    if sort_value_ascending:
-        sorted_table = pd.concat([values, y_actual], axis=1).sort_values(by=[values.name, y_actual.name], ascending=[True, True])
-    else:
-        sorted_table = pd.concat([values, y_actual], axis=1).sort_values(by=[values.name, y_actual.name], ascending=[False, True])
-    sorted_gs_genes = sorted_table[sorted_table[y_actual.name]==1].index
+    if not presorted:
+        if sort_value_ascending:
+            sorted_table = pd.concat([values, y_actual], axis=1).sort_values(by=[values.name, y_actual.name], ascending=[True, True])
+        else:
+            sorted_table = pd.concat([values, y_actual], axis=1).sort_values(by=[values.name, y_actual.name], ascending=[False, True])
+        sorted_gs_genes = sorted_table[sorted_table[y_actual.name]==1].index
 
     # Calculate precision recall curve
     TP, FN, count = 0, len(gold_standard_set), 1
