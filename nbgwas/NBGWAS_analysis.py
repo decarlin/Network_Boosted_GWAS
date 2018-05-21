@@ -55,6 +55,8 @@ def PRC(values, gold_standard_set, presorted=True, sort_value_ascending=True):
     
     return precision, recall, AUPRC
 
+
+# Can be updated to compare against degree-matched null gene sets
 def ranksum(ranked_gene_list, gene_list):
     # Calculate ranksum of actual top genes 
     GS_prop_results = ranked_gene_list[ranked_gene_list['Gene'].isin(gene_list)]
