@@ -54,9 +54,10 @@ def min_p(SNP_summary, gene_positions, window):
 	dist = window*1000
 	genelist = list(gene_positions.index)
 	min_p_list = []
+	SNP_summary['Chr']=SNP_summary['Chr'].astype(str)
 	for gene in genelist:
 		gene_info = gene_positions.ix[gene]
-		chrom = gene_info['Chr']
+		chrom = str(gene_info['Chr'])
 		start = gene_info['Start']
 		stop = gene_info['End']
 		# Get all SNPs on same chromosome
